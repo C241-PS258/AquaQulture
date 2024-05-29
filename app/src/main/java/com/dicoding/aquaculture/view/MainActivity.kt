@@ -11,18 +11,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Check if the welcome screen has been shown
+        showWelcomeActivity()
+    }
+
+    private fun showWelcomeActivity() {
         val sharedPref = getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
         val hasShownWelcome = sharedPref.getBoolean("hasShownWelcome", false)
 
         if (!hasShownWelcome) {
-            // If the welcome screen hasn't been shown, start WelcomeActivity
             val intent = Intent(this, WelcomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
-            finish() // Close MainActivity
+            finish()
         } else {
-            // If the welcome screen has been shown, proceed with setting up MainActivity
             binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
         }
