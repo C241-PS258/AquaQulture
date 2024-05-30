@@ -1,14 +1,7 @@
 <resources>
+
+    //Welcome Screen
     <string name="app_name">AquaCulture</string>
-    <string name="title_menu_1">Kurikulum Standar Industri Global</string>
-    <string name="title_menu_2">Belajar Fleksibel Sesuai Jadwal Anda</string>
-    <string name="title_menu_3">Code Review dari Developer Expert</string>
-    <string name="title_menu_4">Alumni Terpercaya di Berbagai Perusahaan</string>
-    <string name="desc_menu_1">Kurikulum dikembangkan bersama perusahaan dan pemilik teknologi dunia sesuai kebutuhan industri terkini.</string>
-    <string name="desc_menu_2">Belajar kapan pun, di mana pun, secara mandiri. Bebas memilih kelas sesuai minat belajar. Akses seumur hidup ke kelas dan forum diskusi setelah lulus.</string>
-    <string name="desc_menu_3">Validasi skill Anda melalui 1-on-1 Professional Code Review yang diberikan langsung oleh Developer Expert.</string>
-    <string name="desc_menu_4">Sertifikat yang membuktikan pengetahuan fundamental beserta keterampilan nyata yang diinginkan perusahaan global.</string>
-    <string name="learn_now">Belajar Sekarang</string>
     <string name="greet">Halo!</string>
     <string name="welcome1">Selamat datang di Aquaculture, anda dapat dengan mudah mengidentifikasi ikan anda dengan bantuan Machine learning!.</string>
     <string name="welcome2">Cukup dengan mengambil gambar dan machine learning akan otomatis mendeteksi ikan yang anda perlihatkan!</string>
@@ -17,4 +10,16 @@
     <string name="welcome4_2">Yuk masuk sekarang!</string>
     <string name="enter">Masuk</string>
     <string name="welcome_swipe">Geser untuk melanjutkan →→→</string>
+
+    //Scan
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
+    <string name="upload_story">Upload Story</string>
+    <string name="empty_image_warning">Please insert the image file first.</string>
+    <string name="lang">Language</string>
+    <string name="ch_lang">Change Language</string>
+    <string name="detected_lang">English</string>
+    <string name="cur_lang">Current language :</string>
+    <string name="preview">Preview : </string>
 </resources>

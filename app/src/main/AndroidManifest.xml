@@ -2,6 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -13,8 +19,11 @@
         android:theme="@style/Theme.AquaCulture"
         tools:targetApi="31">
         <activity
-            android:name=".view.MainActivity"
-            android:exported="true">
+            android:name=".view.ScanDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".view.ScanActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,9 +31,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.WelcomeActivity"
+            android:name=".view.MainActivity"
             android:exported="true">
         </activity>
+        <activity
+            android:name=".view.WelcomeActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
