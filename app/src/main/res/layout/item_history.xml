@@ -10,8 +10,7 @@
     android:layout_gravity="center"
     card_view:cardCornerRadius="8dp"
     card_view:cardElevation="16dp"
-    android:transitionName="shared_card_transition"
-    >
+    android:transitionName="shared_card_transition">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -25,8 +24,7 @@
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars"
-            android:transitionName="image_history"
-            />
+            android:transitionName="image_history" />
 
         <TextView
             android:id="@+id/name_fish"
@@ -40,8 +38,7 @@
             card_view:layout_constraintStart_toEndOf="@id/image_history"
             card_view:layout_constraintEnd_toEndOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            android:transitionName="name_fish"
-            />
+            android:transitionName="name_fish" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

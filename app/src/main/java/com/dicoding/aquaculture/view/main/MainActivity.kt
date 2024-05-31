@@ -22,21 +22,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         showWelcomeActivity()
-
-//        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-//        val navView: BottomNavigationView = binding.navView
-//        navView.setupWithNavController(navController)
-//
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_home, R.id.navigation_scan, R.id.navigation_profile
-//            )
-//        )
-//
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-//        navView.setupWithNavController(navController)
     }
 
     private fun showWelcomeActivity() {
@@ -48,13 +37,12 @@ class MainActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
-        }
-                else {
-            binding = ActivityMainBinding.inflate(layoutInflater)
-            setContentView(binding.root)
+        } else {
+            val navView: BottomNavigationView = binding.navView
+
+            val navController = findNavController(R.id.nav_host_fragment_activity_main)
+
+            navView.setupWithNavController(navController)
         }
     }
-
-
-
 }

@@ -13,9 +13,6 @@
         android:theme="@style/Theme.AquaCulture"
         tools:targetApi="31">
         <activity
-            android:name=".view.main.HomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.signup.SignupActivity"
             android:exported="false" />
         <activity

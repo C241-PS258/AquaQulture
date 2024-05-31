@@ -10,16 +10,9 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.databinding.ActivityLoginBinding
-import com.dicoding.aquaculture.view.main.HomeActivity
 import com.dicoding.aquaculture.view.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -87,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.loginBtn.setOnClickListener {
-            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
 //            val email = binding.emailEditText.text.toString()
