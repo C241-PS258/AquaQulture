@@ -19,6 +19,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.databinding.ActivityLoginBinding
+import com.dicoding.aquaculture.view.main.HomeActivity
 import com.dicoding.aquaculture.view.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -86,8 +87,9 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.loginBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this@LoginActivity, HomeActivity::class.java)
             startActivity(intent)
+            finish()
 //            val email = binding.emailEditText.text.toString()
 //            val password = binding.passwordEditText.text.toString()
 ////            viewModel.login(email, password)

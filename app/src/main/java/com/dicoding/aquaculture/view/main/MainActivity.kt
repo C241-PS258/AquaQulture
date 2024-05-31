@@ -2,7 +2,10 @@ package com.dicoding.aquaculture.view.main
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.findNavController
@@ -19,20 +22,21 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+
         showWelcomeActivity()
 
-        val navView: BottomNavigationView = binding.navView
-
-        val navController = findNavController(R.id.nav_host_fragment_activity_main)
-
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_scan, R.id.navigation_profile
-            )
-        )
-
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        navView.setupWithNavController(navController)
+//        val navController = findNavController(R.id.nav_host_fragment_activity_main)
+//        val navView: BottomNavigationView = binding.navView
+//        navView.setupWithNavController(navController)
+//
+//        val appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.navigation_home, R.id.navigation_scan, R.id.navigation_profile
+//            )
+//        )
+//
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+//        navView.setupWithNavController(navController)
     }
 
     private fun showWelcomeActivity() {
@@ -44,10 +48,13 @@ class MainActivity : AppCompatActivity() {
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
             finish()
-        } else {
+        }
+                else {
             binding = ActivityMainBinding.inflate(layoutInflater)
             setContentView(binding.root)
         }
     }
+
+
 
 }
