@@ -23,10 +23,32 @@
     <string name="cur_lang">Current language :</string>
     <string name="preview">Preview : </string>
 
+    //Account
+    <string name="email">Email</string>
+    <string name="name">Nama</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="daftar">Daftar</string>
+
+    //Login
+    <string name="login1">Siap Untuk Budidaya Ikan?</string>
+    <string name="login2">Masukkan Username dan Password</string>
+
+    //Register
+    <string name="title_signup">Lengkapi Data Diri Pendaftaran Dibawah Ini</string>
+
+    //CustomView
+    <string name="email_invalid">Format Email Tidak Valid</string>
+    <string name="password_error">Password harus lebih dari 6 karakter</string>
+
+    //Login/Register Menu
+    <string name="try_now">COBA SEKARANG</string>
+
     //Fragment
     <string name="beranda">Beranda</string>
     <string name="scan">Scan</string>
     <string name="profile">Profile</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_user">Halo, User</string>
+
 </resources>

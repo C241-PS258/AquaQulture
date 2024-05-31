@@ -2,15 +2,9 @@ package com.dicoding.aquaculture.view.main
 
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
-import android.view.WindowInsets
-import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.Navigation.findNavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.databinding.ActivityMainBinding
@@ -40,7 +34,8 @@ class MainActivity : AppCompatActivity() {
         } else {
             val navView: BottomNavigationView = binding.navView
 
-            val navController = findNavController(R.id.nav_host_fragment_activity_main)
+            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+            val navController = navHostFragment.navController
 
             navView.setupWithNavController(navController)
         }

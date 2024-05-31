@@ -20,13 +20,13 @@
         android:id="@+id/titleLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:textSize="36dp"
+        android:text="@string/login"
+        android:textSize="36sp"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@id/icon_back"
-        app:layout_constraintTop_toBottomOf="@id/icon_back"/>
+        app:layout_constraintTop_toBottomOf="@id/icon_back" />
 
     <ImageView
         android:id="@+id/imageLogin"
@@ -37,8 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/guidelineHorz2"
-        android:src="@drawable/logo"
-        />
+        android:src="@drawable/logo" />
 
     <TextView
         android:id="@+id/titleTextLogin"
@@ -48,15 +47,14 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="16dp"
         android:alpha="0"
-        android:text="Siap Untuk Budidaya Ikan?"
+        android:text="@string/login1"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/guidelineHorz"
-        tools:alpha="100"
-        />
+        tools:alpha="100" />
 
     <TextView
         android:id="@+id/messageTextLogin"
@@ -66,14 +64,13 @@
         android:layout_marginEnd="32dp"
         android:layout_marginTop="4dp"
         android:alpha="0"
-        android:text="Masukkan Username dan Password"
+        android:text="@string/login2"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titleTextLogin"
-        tools:alpha="100"
-        />
+        tools:alpha="100" />
 
 
 
@@ -84,13 +81,12 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:alpha="0"
-        android:text="Email"
+        android:text="@string/email"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/messageTextLogin"
-        tools:alpha="100"
-        />
+        tools:alpha="100" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailEditTextLogin"
@@ -103,16 +99,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailTextLogin"
         app:startIconDrawable="@drawable/ic_email"
-        tools:alpha="100"
-        >
+        tools:alpha="100">
 
         <com.dicoding.aquaculture.view.costumview.EmailEditText
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textEmailAddress"
-            />
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -123,13 +117,12 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:alpha="0"
-        android:text="Password"
+        android:text="@string/password"
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditTextLogin"
-        tools:alpha="100"
-        />
+        tools:alpha="100" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordEditTextLogin"
@@ -143,16 +136,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordTextLogin"
         app:startIconDrawable="@drawable/ic_lock"
-        tools:alpha="100"
-        >
+        tools:alpha="100">
 
         <com.dicoding.aquaculture.view.costumview.PasswordEditText
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword"
-            />
+            android:inputType="textPassword" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -165,7 +156,8 @@
         android:layout_marginTop="32dp"
         android:enabled="false"
         android:alpha="0"
-        android:text="Login"
+        android:textAllCaps="true"
+        android:text="@string/login"
         android:textColor="@color/white"
         android:textSize="14sp"
         app:cornerRadius="6dp"

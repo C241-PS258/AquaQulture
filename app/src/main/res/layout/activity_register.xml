@@ -25,7 +25,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:alpha="0"
-        android:text="COBA SEKARANG"
+        android:text="@string/try_now"
         android:backgroundTint="@color/black"
         android:textColor="@color/white"
         android:textSize="13sp"
@@ -47,7 +47,8 @@
         android:alpha="0"
         android:textColor="@color/black"
         android:backgroundTint="@color/white"
-        android:text="LOG IN"
+        android:text="@string/login"
+        android:textAllCaps="true"
         app:cornerRadius="6dp"
         android:textSize="13sp"
         app:strokeColor="@color/black"
@@ -66,7 +67,8 @@
         android:layout_marginEnd="16dp"
         android:alpha="0"
         android:backgroundTint="@color/black"
-        android:text="DAFTAR"
+        android:text="@string/daftar"
+        android:textAllCaps="true"
         android:textSize="13sp"
         app:cornerRadius="6dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -90,8 +92,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintGuide_percent="0"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <androidx.constraintlayout.widget.Guideline
@@ -101,8 +102,7 @@
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintGuide_percent="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
