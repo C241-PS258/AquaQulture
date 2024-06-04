@@ -3,15 +3,22 @@ package com.dicoding.aquaculture.view.main
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.databinding.ActivityMainBinding
+import com.dicoding.aquaculture.view.ViewModelFactory
+import com.dicoding.aquaculture.view.register.RegisterActivity
 import com.dicoding.aquaculture.view.welcome.WelcomeActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
+    private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         showWelcomeActivity()
+        sessionObserver()
     }
 
     private fun showWelcomeActivity() {
@@ -38,6 +46,16 @@ class MainActivity : AppCompatActivity() {
             val navController = navHostFragment.navController
 
             navView.setupWithNavController(navController)
+        }
+    }
+
+    private fun sessionObserver() {
+        viewModel.getSession().observe(this) { user ->
+            if (!user.isLogin) {
+                startActivity(Intent(this, RegisterActivity::class.java))
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                finish()
+            }
         }
     }
 }

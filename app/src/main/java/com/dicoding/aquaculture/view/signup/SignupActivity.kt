@@ -1,30 +1,30 @@
 package com.dicoding.aquaculture.view.signup
 
-import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import com.dicoding.aquaculture.R
-import com.dicoding.aquaculture.databinding.ActivitySignupBinding
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.content.Intent
 import android.os.Build
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
-import com.dicoding.aquaculture.view.main.MainActivity
+import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import com.dicoding.aquaculture.data.response.RegisterResponse
+import com.dicoding.aquaculture.databinding.ActivitySignupBinding
+import com.dicoding.aquaculture.view.ViewModelFactory
 
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignupBinding
-//    private val viewModel by viewModels<SignupViewModel> {
-//        ViewModelFactory.getInstance(this)
-//    }
+    private val viewModel by viewModels<SignupViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,13 +57,34 @@ class SignupActivity : AppCompatActivity() {
             passwordEditText.addTextChangedListener(textWatcher)
         }
 
-//        viewModel.isLoading.observe(this) { isLoading ->
-//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//        }
-//
-//        viewModel.registerResult.observe(this, Observer { registerResponse ->
-//            handleRegisterResult(registerResponse)
-//        })
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
+
+        viewModel.registerResult.observe(this, Observer { registerResponse ->
+            handleRegisterResult(registerResponse)
+        })
+    }
+
+    private fun setMyButtonEnable() {
+        val name = binding.nameEditText.text.toString()
+        val email = binding.emailEditText.text.toString()
+        val password = binding.passwordEditText.text.toString()
+        binding.signupBtn.isEnabled = name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()
+    }
+
+    private fun setupAction() {
+        binding.signupBtn.setOnClickListener {
+            val name = binding.nameEditText.text.toString()
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+
+            Log.d("TAG", "Tes1$name ")
+            viewModel.register(name, email, password)
+        }
+        binding.iconBack.setOnClickListener {
+            onBackPressedDispatcher
+        }
     }
 
     private fun setupView() {
@@ -79,55 +100,32 @@ class SignupActivity : AppCompatActivity() {
         supportActionBar?.hide()
     }
 
-    private fun setMyButtonEnable() {
-        val name = binding.nameEditText.text.toString()
-        val email = binding.emailEditText.text.toString()
-        val password = binding.passwordEditText.text.toString()
-        binding.signupBtn.isEnabled = name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()
-    }
-
-    private fun setupAction() {
-        binding.signupBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-//            val name = binding.nameEditText.text.toString()
-//            val email = binding.emailEditText.text.toString()
-//            val password = binding.passwordEditText.text.toString()
-
-//            Log.d("TAG", "Tes1$name ")
-//            viewModel.register(name, email, password)
-        }
-        binding.iconBack.setOnClickListener {
-            onBackPressed()
+    private fun handleRegisterResult(registerResponse: RegisterResponse) {
+        registerResponse?.let {
+            if (it.message == "User created") {
+                showAlertDialog("Success", "Your account has been created. Next, please login!", "OK") {
+                    finish()
+                }
+            } else {
+                Log.d("TAG", "TesError ")
+                showAlertDialog("Error", it.message?:"Your account has not been created. Please try again!","OK", null)
+            }
         }
     }
 
-//    private fun handleRegisterResult(registerResponse: RegisterResponse) {
-//        registerResponse?.let {
-//            if (it.message == "User created") {
-//                showAlertDialog("Success", "Your account has been created. Next, please login!", "OK") {
-//                    finish()
-//                }
-//            } else {
-//                Log.d("TAG", "TesError ")
-//                showAlertDialog("Error", it.message?:"Your account has not been created. Please try again!","OK", null)
-//            }
-//        }
-//    }
-//
-//    private fun showAlertDialog(title: String, message: String, buttonText: String, action: (() -> Unit )?) {
-//        val builder = AlertDialog.Builder(this)
-//            .setTitle(title)
-//            .setMessage(message)
-//            .setPositiveButton(buttonText) { dialog, _ ->
-//                action?.invoke()
-//                dialog.dismiss()
-//            }
-//        if (action == null) {
-//            builder.setCancelable(true)
-//        }
-//        builder.show()
-//    }
+    private fun showAlertDialog(title: String, message: String, buttonText: String, action: (() -> Unit )?) {
+        val builder = AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(buttonText) { dialog, _ ->
+                action?.invoke()
+                dialog.dismiss()
+            }
+        if (action == null) {
+            builder.setCancelable(true)
+        }
+        builder.show()
+    }
 
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imageSignup, View.TRANSLATION_X, -30f, 30f).apply {

@@ -10,16 +10,22 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import com.dicoding.aquaculture.data.response.LoginResponse
 import com.dicoding.aquaculture.databinding.ActivityLoginBinding
+import com.dicoding.aquaculture.view.ViewModelFactory
 import com.dicoding.aquaculture.view.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-//    private val viewModel by viewModels<LoginViewModel>{
-//        ViewModelFactory.getInstance(this)
-//    }
+    private val viewModel by viewModels<LoginViewModel>{
+        ViewModelFactory.getInstance(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,15 +54,13 @@ class LoginActivity : AppCompatActivity() {
         binding.emailEditText.addTextChangedListener(textWatcher)
         binding.passwordEditText.addTextChangedListener(textWatcher)
 
-//        viewModel.isLoading.observe(this) { isLoading ->
-//            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
-//        }
-//
-//        viewModel.loginResult.observe(this, Observer { loginResponse ->
-//            loginResultHandler(loginResponse)
-//        })
+        viewModel.isLoading.observe(this) { isLoading ->
+            binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        }
 
-
+        viewModel.loginResult.observe(this, Observer { loginResponse ->
+            loginResultHandler(loginResponse)
+        })
     }
 
     private fun setupView() {
@@ -80,46 +84,44 @@ class LoginActivity : AppCompatActivity() {
 
     private fun setupAction() {
         binding.loginBtn.setOnClickListener {
-            val intent = Intent(this@LoginActivity, MainActivity::class.java)
-            startActivity(intent)
-            finish()
-//            val email = binding.emailEditText.text.toString()
-//            val password = binding.passwordEditText.text.toString()
-////            viewModel.login(email, password)
+            val email = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
+
+            viewModel.login(email, password)
         }
         binding.iconBack.setOnClickListener {
-            onBackPressed()
+            onBackPressedDispatcher
         }
     }
 
-//    private fun loginResultHandler(loginResponse: LoginResponse?) {
-//        loginResponse?.let {
-//            if (it.message == "success"){
-//                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-//                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-//                startActivity(intent)
-//                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
-//                finish()
-//            } else {
-//                showAlertDialog("Error", it.message ?: "Login Failed","OK",null)
-//            }
-//        }
-//    }
+    private fun loginResultHandler(loginResponse: LoginResponse?) {
+        loginResponse?.let {
+            if (it.message == "success"){
+                val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                showAlertDialog("Error", it.message ?: "Login Failed","OK",null)
+            }
+        }
+    }
 
-//    private fun showAlertDialog(title: String, message: String, buttonText: String = "OK", action: (() -> Unit)?) {
-//        val builder = AlertDialog.Builder(this)
-//            .setTitle(title)
-//            .setMessage(message)
-//            .setPositiveButton(buttonText) { dialog, _ ->
-//                action?.invoke()
-//                dialog.dismiss()
-//            }
-//        if (action == null) {
-//            builder.setCancelable(true)
-//        }
-//
-//        builder.show()
-//    }
+    private fun showAlertDialog(title: String, message: String, buttonText: String = "OK", action: (() -> Unit)?) {
+        val builder = AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(buttonText) { dialog, _ ->
+                action?.invoke()
+                dialog.dismiss()
+            }
+        if (action == null) {
+            builder.setCancelable(true)
+        }
+
+        builder.show()
+    }
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imageLogin, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 7000
