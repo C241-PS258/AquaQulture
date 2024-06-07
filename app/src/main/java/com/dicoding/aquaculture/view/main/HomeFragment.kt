@@ -31,7 +31,9 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getUserName().observe(viewLifecycleOwner, Observer { userName ->
-            binding.nameUser.text = getString(R.string.name_user, userName ?: "User")
+            binding.nameUser.text = getString(R.string.name_user) + " " + userName
+
+            binding.nameUser.animate().alpha(1f).setDuration(250).start()
         })
     }
 

@@ -22,10 +22,11 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
             try {
                 val token = repository.getUserToken()
                 val statusResponse = repository.getStatus(token)
-                val name = statusResponse.name ?: "User"
+                val name = statusResponse.name
                 userName.postValue(name)
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Error fetching status: ${e.message}", e)
+                userName.postValue(null)
             }
         }
     }
