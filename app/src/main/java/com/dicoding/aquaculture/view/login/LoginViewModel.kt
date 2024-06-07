@@ -1,5 +1,6 @@
 package com.dicoding.aquaculture.view.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,11 +11,15 @@ import com.dicoding.aquaculture.data.response.LoginResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import java.io.IOException
 
 class LoginViewModel(private val repository: UserRepository) : ViewModel() {
 
-    private val _loginResult = MutableLiveData<LoginResponse>()
-    val loginResult: LiveData<LoginResponse> = _loginResult
+    private val _loginResult = MutableLiveData<String?>()
+    val loginResult: LiveData<String?> = _loginResult
+
+    private val _errorMessage = MutableLiveData<String?>()
+    val errorMessage: LiveData<String?> = _errorMessage
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -23,29 +28,37 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val result = repository.login(email, password)
-                _loginResult.postValue(result)
-                result.loginResult?.token?.let { token ->
-                    val user = UserModel(email = email, token = token, isLogin = true)
-                    saveSession(user)
-                }
+                val token = repository.login(email, password)
+                _loginResult.postValue(token)
+                val user = UserModel(email = email, token = token, isLogin = true)
+                saveSession(user)
             } catch (e: HttpException) {
                 val errorResponse = e.response()?.errorBody()?.string()
-                val errorMessage = errorResponse?.let {
-                    Gson().fromJson(it, LoginResponse::class.java).message
-                } ?: e.message()
-                _loginResult.postValue(LoginResponse(message = errorMessage))
+                val errorMessage = errorResponse ?: e.message()
+                _errorMessage.postValue(errorMessage)
+                _loginResult.postValue(null)
+            } catch (e: IOException) {
+                _errorMessage.postValue("Network error: ${e.message}")
+                _loginResult.postValue(null)
             } catch (e: Exception) {
-                _loginResult.postValue(LoginResponse(message = e.message ?: "Unknown error"))
+                _errorMessage.postValue(e.message ?: "Unknown error")
+                _loginResult.postValue(null)
             } finally {
                 _isLoading.postValue(false)
             }
         }
     }
 
+
     private fun saveSession(user: UserModel) {
         viewModelScope.launch {
-            repository.saveSession(user)
+            try {
+                repository.saveSession(user)
+                _loginResult.postValue(user.token)
+            } catch (e: Exception) {
+                _errorMessage.postValue(e.message ?: "Unknown error")
+                _loginResult.postValue(null)
+            }
         }
     }
 }

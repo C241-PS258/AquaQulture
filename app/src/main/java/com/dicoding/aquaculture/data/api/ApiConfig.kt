@@ -6,14 +6,16 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.google.gson.GsonBuilder
 
 object ApiConfig {
     fun getApiService(token: String): ApiService {
-        val loggingInterceptor = if(BuildConfig.DEBUG) {
+        val loggingInterceptor = if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
         } else {
             HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE)
         }
+
         val authInterceptor = Interceptor { chain ->
             val req = chain.request()
             val requestHeaders = req.newBuilder()
@@ -21,15 +23,22 @@ object ApiConfig {
                 .build()
             chain.proceed(requestHeaders)
         }
+
         val client = OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
             .addInterceptor(authInterceptor)
             .build()
+
+        val gson = GsonBuilder()
+            .setLenient()  // Enable lenient mode
+            .create()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(BuildConfig.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .client(client)
             .build()
+
         return retrofit.create(ApiService::class.java)
     }
 }

@@ -1,12 +1,11 @@
 package com.dicoding.aquaculture.data.response
 
-import com.google.gson.annotations.SerializedName
-
 data class RegisterResponse(
-
-	@field:SerializedName("error")
-	val error: Boolean? = null,
-
-	@field:SerializedName("message")
-	val message: String? = null
+	val password: String? = null,
+	val name: String? = null,
+	val id: String? = null,
+	val email: String? = null,
+	val message: String?,
+	val statusCode: Int? = null
 )
+

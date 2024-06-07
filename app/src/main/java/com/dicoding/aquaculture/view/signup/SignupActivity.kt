@@ -83,7 +83,7 @@ class SignupActivity : AppCompatActivity() {
             viewModel.register(name, email, password)
         }
         binding.iconBack.setOnClickListener {
-            onBackPressedDispatcher
+            onBackPressed()
         }
     }
 
@@ -102,13 +102,13 @@ class SignupActivity : AppCompatActivity() {
 
     private fun handleRegisterResult(registerResponse: RegisterResponse) {
         registerResponse?.let {
-            if (it.message == "User created") {
-                showAlertDialog("Success", "Your account has been created. Next, please login!", "OK") {
+            if (it.id != null && it.name != null && it.email != null && it.password != null) {
+                showAlertDialog("Sukses", "Pendaftaran akun berhasil!. Silahkan login untuk melanjutkan!", "OK") {
                     finish()
                 }
             } else {
                 Log.d("TAG", "TesError ")
-                showAlertDialog("Error", it.message?:"Your account has not been created. Please try again!","OK", null)
+                showAlertDialog("Error", it.message ?: "Your account has not been created. Please try again!", "OK", null)
             }
         }
     }

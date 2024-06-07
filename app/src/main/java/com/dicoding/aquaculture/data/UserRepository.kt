@@ -1,12 +1,17 @@
 package com.dicoding.aquaculture.data
 
+import android.util.Log
 import com.dicoding.aquaculture.data.api.ApiConfig.getApiService
 import com.dicoding.aquaculture.data.api.ApiService
+import com.dicoding.aquaculture.data.response.ErrorResponse
 import com.dicoding.aquaculture.data.pref.UserModel
 import com.dicoding.aquaculture.data.pref.UserPreference
 import com.dicoding.aquaculture.data.response.DetailStoryResponse
+import com.dicoding.aquaculture.data.response.LoginRequest
 import com.dicoding.aquaculture.data.response.LoginResponse
+import com.dicoding.aquaculture.data.response.RegisterRequest
 import com.dicoding.aquaculture.data.response.RegisterResponse
+import com.dicoding.aquaculture.data.response.StatusResponse
 import com.dicoding.aquaculture.data.response.StoryUploadResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -24,12 +29,53 @@ class UserRepository private constructor(
         userPreference.saveSession(user)
     }
 
-    suspend fun login(email: String, password: String): LoginResponse {
-        return apiService.login(email, password)
+    suspend fun login(email: String, password: String): String {
+        val request = LoginRequest(email, password)
+        val response = apiService.login(request)
+        return if (response.isSuccessful) {
+            response.body()?.string() ?: throw Exception("No token in response")
+        } else {
+            val errorBody = response.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
+            throw Exception(errorResponse.message)
+        }
     }
 
+
     suspend fun register(name: String, email: String, password: String): RegisterResponse {
-        return apiService.register(name, email, password)
+        val request = RegisterRequest(name, email, password)
+        return try {
+            val response = apiService.register(request)
+            if (response.isSuccessful) {
+                response.body() ?: throw Exception("Registration successful but response body is null")
+            } else {
+                val errorBody = response.errorBody()?.string()
+                val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
+                throw Exception(errorResponse.message)
+            }
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = if (errorBody != null) {
+                Gson().fromJson(errorBody, ErrorResponse::class.java)
+            } else {
+                ErrorResponse(e.message(), "Unknown error", e.code())
+            }
+            throw Exception(errorResponse.message)
+        }
+    }
+
+    suspend fun getStatus(token: String): StatusResponse {
+        return try {
+            getApiService(token).status()
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorMessage = if (errorBody != null) {
+                Gson().fromJson(errorBody, ErrorResponse::class.java).message
+            } else {
+                e.message()
+            }
+            throw Exception(errorMessage)
+        }
     }
 
     fun getSession(): Flow<UserModel> {

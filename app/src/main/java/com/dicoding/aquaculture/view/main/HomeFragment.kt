@@ -30,10 +30,8 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getSession().observe(viewLifecycleOwner, Observer { user ->
-            if (user != null && user.isLogin) {
-                binding.nameUser.text = getString(R.string.name_user, "User")
-            }
+        viewModel.getUserName().observe(viewLifecycleOwner, Observer { userName ->
+            binding.nameUser.text = getString(R.string.name_user, userName ?: "User")
         })
     }
 

@@ -58,9 +58,15 @@ class LoginActivity : AppCompatActivity() {
             binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         }
 
-        viewModel.loginResult.observe(this, Observer { loginResponse ->
-            loginResultHandler(loginResponse)
+        viewModel.loginResult.observe(this, Observer { token ->
+            loginResultHandler(token)
         })
+
+        viewModel.errorMessage.observe(this) { errorMessage ->
+            errorMessage?.let {
+                showAlertDialog("Error", it, "OK", null)
+            }
+        }
     }
 
     private fun setupView() {
@@ -90,21 +96,17 @@ class LoginActivity : AppCompatActivity() {
             viewModel.login(email, password)
         }
         binding.iconBack.setOnClickListener {
-            onBackPressedDispatcher
+            onBackPressed()
         }
     }
 
-    private fun loginResultHandler(loginResponse: LoginResponse?) {
-        loginResponse?.let {
-            if (it.message == "success"){
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                startActivity(intent)
-                Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
-                finish()
-            } else {
-                showAlertDialog("Error", it.message ?: "Login Failed","OK",null)
-            }
+    private fun loginResultHandler(token: String?) {
+        if (token != null) {
+            val intent = Intent(this@LoginActivity, MainActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+            Toast.makeText(this, "Login Success", Toast.LENGTH_SHORT).show()
+            finish()
         }
     }
 

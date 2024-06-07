@@ -22,17 +22,9 @@ class SignupViewModel(private val repository: UserRepository) : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val result = repository.register(name, email, password)
+                val result = repository.register(name, email, password) as RegisterResponse
                 _registerResult.value = result
-            }
-            catch (e: HttpException) {
-                val errorResponse = e.response()?.errorBody()?.string()
-                val errorMessage = errorResponse?.let {
-                    Gson().fromJson(it, RegisterResponse::class.java).message
-                } ?: e.message()
-                _registerResult.value = RegisterResponse(message = errorMessage)
-            }
-            catch (e: Exception) {
+            } catch (e: Exception) {
                 _registerResult.value = RegisterResponse(message = e.message)
             } finally {
                 _isLoading.value = false
