@@ -5,12 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aquaculture.data.UserRepository
 import com.dicoding.aquaculture.data.pref.UserModel
-import com.dicoding.aquaculture.data.response.LoginResult
-import com.dicoding.aquaculture.data.response.StatusResponse
 import kotlinx.coroutines.launch
 
 class MainViewModel(private val repository: UserRepository) : ViewModel() {

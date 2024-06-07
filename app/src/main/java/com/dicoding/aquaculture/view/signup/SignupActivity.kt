@@ -101,7 +101,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun handleRegisterResult(registerResponse: RegisterResponse) {
-        registerResponse?.let {
+        registerResponse.let {
             if (it.id != null && it.name != null && it.email != null && it.password != null) {
                 showAlertDialog("Sukses", "Pendaftaran akun berhasil!. Silahkan login untuk melanjutkan!", "OK") {
                     finish()

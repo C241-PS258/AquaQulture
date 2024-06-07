@@ -1,14 +1,11 @@
 package com.dicoding.aquaculture.view.login
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aquaculture.data.UserRepository
 import com.dicoding.aquaculture.data.pref.UserModel
-import com.dicoding.aquaculture.data.response.LoginResponse
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException

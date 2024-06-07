@@ -6,9 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aquaculture.data.UserRepository
 import com.dicoding.aquaculture.data.response.RegisterResponse
-import com.google.gson.Gson
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 class SignupViewModel(private val repository: UserRepository) : ViewModel() {
 
@@ -22,7 +20,7 @@ class SignupViewModel(private val repository: UserRepository) : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val result = repository.register(name, email, password) as RegisterResponse
+                val result = repository.register(name, email, password)
                 _registerResult.value = result
             } catch (e: Exception) {
                 _registerResult.value = RegisterResponse(message = e.message)

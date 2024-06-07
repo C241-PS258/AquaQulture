@@ -16,7 +16,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import com.dicoding.aquaculture.data.response.LoginResponse
 import com.dicoding.aquaculture.databinding.ActivityLoginBinding
 import com.dicoding.aquaculture.view.ViewModelFactory
 import com.dicoding.aquaculture.view.main.MainActivity

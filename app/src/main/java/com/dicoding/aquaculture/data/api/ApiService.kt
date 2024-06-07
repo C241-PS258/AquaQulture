@@ -2,7 +2,6 @@ package com.dicoding.aquaculture.data.api
 
 import com.dicoding.aquaculture.data.response.DetailStoryResponse
 import com.dicoding.aquaculture.data.response.LoginRequest
-import com.dicoding.aquaculture.data.response.LoginResponse
 import com.dicoding.aquaculture.data.response.RegisterRequest
 import com.dicoding.aquaculture.data.response.RegisterResponse
 import com.dicoding.aquaculture.data.response.StatusResponse

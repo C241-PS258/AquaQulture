@@ -1,14 +1,12 @@
 package com.dicoding.aquaculture.data
 
-import android.util.Log
 import com.dicoding.aquaculture.data.api.ApiConfig.getApiService
 import com.dicoding.aquaculture.data.api.ApiService
-import com.dicoding.aquaculture.data.response.ErrorResponse
 import com.dicoding.aquaculture.data.pref.UserModel
 import com.dicoding.aquaculture.data.pref.UserPreference
 import com.dicoding.aquaculture.data.response.DetailStoryResponse
+import com.dicoding.aquaculture.data.response.ErrorResponse
 import com.dicoding.aquaculture.data.response.LoginRequest
-import com.dicoding.aquaculture.data.response.LoginResponse
 import com.dicoding.aquaculture.data.response.RegisterRequest
 import com.dicoding.aquaculture.data.response.RegisterResponse
 import com.dicoding.aquaculture.data.response.StatusResponse
