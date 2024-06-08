@@ -6,23 +6,36 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.data.utils.getImageUri
+import com.dicoding.aquaculture.data.utils.reduceFileImage
+import com.dicoding.aquaculture.data.utils.uriToFile
 import com.dicoding.aquaculture.databinding.FragmentScanBinding
+import com.dicoding.aquaculture.view.ViewModelFactory
 import com.dicoding.aquaculture.view.scan.ScanDetailsActivity
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 
 class ScanFragment : Fragment() {
-//    private val viewModel by viewModels<UploadStoryViewModel> {
-//        ViewModelFactory.getInstance(this)
-//    }
+    private val viewModel by viewModels<MainViewModel> {
+        ViewModelFactory.getInstance(requireContext())
+    }
+
     private var _binding: FragmentScanBinding? = null
     private val binding get() = _binding!!
 
@@ -48,7 +61,7 @@ class ScanFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
 
         _binding = FragmentScanBinding.inflate(inflater, container, false)
 
@@ -64,23 +77,27 @@ class ScanFragment : Fragment() {
 
         binding.galleryButton.setOnClickListener { startGallery() }
         binding.cameraButton.setOnClickListener { startCamera() }
-        binding.uploadButton.setOnClickListener {
-            val uri = Uri.parse(currentImageUri.toString())
-            val intent = Intent(requireContext(), ScanDetailsActivity::class.java)
-            intent.putExtra(ScanDetailsActivity.EXTRA_IMAGE_URI, uri.toString())
-            startActivity(intent)
-        }
+        binding.uploadButton.setOnClickListener { uploadImage() }
 
-//        viewModel.isLoading.observe(this, Observer { isLoading ->
-//            showLoading(isLoading)
-//        })
-//        viewModel.uploadResult.observe(this, Observer { message ->
-//            showToast(message)
-//            if (message == getString(R.string.upload_complete)) {
-//                navigateToMainActivity()
-//            }
-//        })
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            showLoading(isLoading)
+        })
+        viewModel.predictResult.observe(viewLifecycleOwner, Observer { result ->
+            result?.let {
+                val intent = Intent(requireContext(), ScanDetailsActivity::class.java)
+                intent.putExtra(ScanDetailsActivity.EXTRA_IMAGE_URI, currentImageUri.toString())
+                intent.putExtra(ScanDetailsActivity.EXTRA_JENIS_IKAN, result.jenisIkan)
+                intent.putExtra(ScanDetailsActivity.EXTRA_PAKAN, result.pakan)
+                intent.putExtra(ScanDetailsActivity.EXTRA_PEMELIHARAAN, result.pemeliharaan)
+                startActivity(intent)
+            }
+        })
 
+        viewModel.errorMessage.observe(viewLifecycleOwner, Observer { errorMessage ->
+            errorMessage?.let {
+                showToast(errorMessage)
+            }
+        })
         return binding.root
 
     }
@@ -104,23 +121,15 @@ class ScanFragment : Fragment() {
         }
     }
 
-    //    private fun uploadImage() {
-//        currentImageUri?.let { uri ->
-//            val imageFile = uriToFile(uri, this).reduceFileImage()
-//            Log.d("Image File", "showImage: ${imageFile.path}")
-//            val description = binding.descriptionEditText.text.toString().trim()
-//
-//            val requestBody = description.toRequestBody("text/plain".toMediaType())
-//            val requestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
-//            val multipartBody = MultipartBody.Part.createFormData(
-//                "photo",
-//                imageFile.name,
-//                requestImageFile
-//            )
-//
-//            viewModel.upload(multipartBody, requestBody)
-//        } ?: showToast(getString(R.string.empty_image_warning))
-//    }
+    private fun uploadImage() {
+        currentImageUri?.let { uri ->
+            val imageFile = uriToFile(uri, requireContext()) // Get File from Uri
+            val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageFile)
+            val multipartBody = MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
+
+            viewModel.predictFish(multipartBody)
+        } ?: showToast("Please select an image first")
+    }
 
     private val launcherGallery = registerForActivityResult(
         ActivityResultContracts.PickVisualMedia()

@@ -5,12 +5,12 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
-import androidx.exifinterface.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.content.FileProvider
+import androidx.exifinterface.media.ExifInterface
 import com.dicoding.aquaculture.BuildConfig
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -75,16 +75,16 @@ fun File.reduceFileImage(): File {
     var streamLength: Int
     do {
         val bmpStream = ByteArrayOutputStream()
-        bitmap?.compress(Bitmap.CompressFormat.JPEG, comressedQuality, bmpStream)
+        bitmap.compress(Bitmap.CompressFormat.JPEG, comressedQuality, bmpStream)
         val bmpPicByteArray = bmpStream.toByteArray()
         streamLength = bmpPicByteArray.size
         comressedQuality -= 5
     } while (streamLength > 1000000)
-    bitmap?.compress(Bitmap.CompressFormat.JPEG, comressedQuality, FileOutputStream(file))
+    bitmap.compress(Bitmap.CompressFormat.JPEG, comressedQuality, FileOutputStream(file))
     return file
 }
 
-fun Bitmap.getRotatedBitmap(file: File): Bitmap? {
+fun Bitmap.getRotatedBitmap(file: File): Bitmap {
     val orientation = ExifInterface(file).getAttributeInt(
         ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED
     )

@@ -22,13 +22,20 @@ class ScanDetailsActivity : AppCompatActivity() {
             binding.resultImage.setImageURI(it)
         }
 
-//        val detectedText = intent.getStringExtra(EXTRA_RESULT)
-//        binding.resultText.text = detectedText
+        val jenisIkan = intent.getStringExtra(EXTRA_JENIS_IKAN)
+        val pakan = intent.getStringExtra(EXTRA_PAKAN)
+        val pemeliharaan = intent.getStringExtra(EXTRA_PEMELIHARAAN)
+
+        binding.jenisIkan.text = jenisIkan
+        binding.pakan.text = pakan
+        binding.pemeliharaan.text = pemeliharaan
 
     }
 
     companion object {
         const val EXTRA_IMAGE_URI = "extra_image_uri"
-        const val EXTRA_RESULT = "extra_result"
+        const val EXTRA_JENIS_IKAN = "extra_jenis_ikan"
+        const val EXTRA_PAKAN = "extra_pakan"
+        const val EXTRA_PEMELIHARAAN = "extra_pemeliharaan"
     }
 }
