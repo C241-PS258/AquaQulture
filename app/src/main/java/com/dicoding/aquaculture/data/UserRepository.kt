@@ -7,6 +7,7 @@ import com.dicoding.aquaculture.data.pref.UserPreference
 import com.dicoding.aquaculture.data.response.DetailStoryResponse
 import com.dicoding.aquaculture.data.response.ErrorResponse
 import com.dicoding.aquaculture.data.response.LoginRequest
+import com.dicoding.aquaculture.data.response.PredictResponse
 import com.dicoding.aquaculture.data.response.RegisterRequest
 import com.dicoding.aquaculture.data.response.RegisterResponse
 import com.dicoding.aquaculture.data.response.StatusResponse
@@ -38,7 +39,6 @@ class UserRepository private constructor(
             throw Exception(errorResponse.message)
         }
     }
-
 
     suspend fun register(name: String, email: String, password: String): RegisterResponse {
         val request = RegisterRequest(name, email, password)
@@ -82,6 +82,16 @@ class UserRepository private constructor(
 
     suspend fun getUserToken(): String {
         return getSession().first().token
+    }
+
+    suspend fun predictFish(image: MultipartBody.Part): PredictResponse {
+        return try {
+            apiService.predict(image)
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
+            throw Exception(errorResponse.message)
+        }
     }
 
     suspend fun getDetailStory(storyId: String): DetailStoryResponse {

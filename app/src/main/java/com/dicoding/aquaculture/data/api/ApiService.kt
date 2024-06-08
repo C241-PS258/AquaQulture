@@ -2,6 +2,7 @@ package com.dicoding.aquaculture.data.api
 
 import com.dicoding.aquaculture.data.response.DetailStoryResponse
 import com.dicoding.aquaculture.data.response.LoginRequest
+import com.dicoding.aquaculture.data.response.PredictResponse
 import com.dicoding.aquaculture.data.response.RegisterRequest
 import com.dicoding.aquaculture.data.response.RegisterResponse
 import com.dicoding.aquaculture.data.response.StatusResponse
@@ -32,6 +33,12 @@ interface ApiService {
 
     @GET("auth/status")
     suspend fun status(): StatusResponse
+
+    @Multipart
+    @POST("predict/fish")
+    suspend fun predict(
+        @Part image: MultipartBody.Part
+    ): PredictResponse
 
     @GET("stories")
     suspend fun getStories(
