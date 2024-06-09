@@ -10,4 +10,7 @@
 
     <color name="pink">#F06292</color>
     <color name="navi">#2D3D4F</color>
+
+    <color name="button_text_day">@android:color/white</color>
+    <color name="button_text_night">@android:color/black</color>
 </resources>

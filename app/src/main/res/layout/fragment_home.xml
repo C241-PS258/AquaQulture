@@ -18,10 +18,10 @@
             android:layout_margin="32dp"
             android:textSize="36sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
             android:text="@string/name_user"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            tools:alpha="100" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_history"

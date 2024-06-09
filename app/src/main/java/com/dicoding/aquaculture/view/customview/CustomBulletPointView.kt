@@ -1,5 +1,6 @@
 package com.dicoding.aquaculture.view.customview
 
+import android.app.UiModeManager
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -9,6 +10,7 @@ import android.text.TextPaint
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
+import com.dicoding.aquaculture.R
 
 class CustomBulletPointView @JvmOverloads constructor(
     context: Context,
@@ -16,13 +18,23 @@ class CustomBulletPointView @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
+    private val isNightMode = isNightModeEnabled(context)
+
     private val paint = Paint().apply {
-        color = ContextCompat.getColor(context, android.R.color.black)
+        color = if (isNightMode) {
+            ContextCompat.getColor(context, android.R.color.white)
+        } else {
+            ContextCompat.getColor(context, R.color.black)
+        }
         style = Paint.Style.FILL
         isAntiAlias = true
     }
     private val textPaint = TextPaint().apply {
-        color = ContextCompat.getColor(context, android.R.color.black)
+        color = if (isNightMode) {
+            ContextCompat.getColor(context, android.R.color.white)
+        } else {
+            ContextCompat.getColor(context, R.color.black)
+        }
         textSize = 35f
         isAntiAlias = true
     }
@@ -80,5 +92,10 @@ class CustomBulletPointView @JvmOverloads constructor(
 
             yOffset += layouts[index].height + bulletMargin.toInt()
         }
+    }
+
+    private fun isNightModeEnabled(context: Context): Boolean {
+        val uiModeManager = context.getSystemService(Context.UI_MODE_SERVICE) as? UiModeManager
+        return uiModeManager?.nightMode == UiModeManager.MODE_NIGHT_YES
     }
 }
