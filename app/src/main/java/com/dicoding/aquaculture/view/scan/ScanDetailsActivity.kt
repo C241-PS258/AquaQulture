@@ -28,10 +28,10 @@ class ScanDetailsActivity : AppCompatActivity() {
 
         binding.jenisIkan.text = jenisIkan
         pakan?.let {
-            binding.pakan.setItems(it.split(","))
+            binding.pakan.setItems(it.split(",").map { point -> point.trim() })
         }
         pemeliharaan?.let {
-            binding.pemeliharaan.setItems(it.split(","))
+            binding.pemeliharaan.setItems(it.split(". ").map { point -> point.trim() })
         }
 
     }

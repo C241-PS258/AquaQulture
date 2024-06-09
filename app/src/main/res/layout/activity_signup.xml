@@ -119,7 +119,7 @@
             app:startIconDrawable="@drawable/ic_email"
             tools:alpha="100">
 
-                <com.dicoding.aquaculture.view.costumview.EmailEditText
+                <com.dicoding.aquaculture.view.customview.EmailEditText
                     android:id="@+id/emailEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
             app:startIconDrawable="@drawable/ic_lock"
             tools:alpha="100">
 
-                <com.dicoding.aquaculture.view.costumview.PasswordEditText
+                <com.dicoding.aquaculture.view.customview.PasswordEditText
                     android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -1,4 +1,4 @@
-package com.dicoding.aquaculture.view.costumview
+package com.dicoding.aquaculture.view.customview
 
 import android.content.Context
 import android.text.Editable

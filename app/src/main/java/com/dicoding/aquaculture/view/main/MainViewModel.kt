@@ -15,8 +15,8 @@ import okhttp3.MultipartBody
 class MainViewModel(private val repository: UserRepository) : ViewModel() {
 
     private val userName: MutableLiveData<String?> = MutableLiveData()
-    private val _predictResult = MutableLiveData<PredictResponse>()
-    val predictResult: LiveData<PredictResponse> get() = _predictResult
+    private val _predictResult = MutableLiveData<PredictResponse?>()
+    val predictResult: MutableLiveData<PredictResponse?> get() = _predictResult
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
     private val _isLoading = MutableLiveData<Boolean>()
@@ -54,6 +54,14 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
                 _isLoading.value = false
             }
         }
+    }
+
+    fun resetPredictResult() {
+        _predictResult.value = null
+    }
+
+    fun resetErrorMessage() {
+        _errorMessage.value = null
     }
 
     fun getUserName(): MutableLiveData<String?> = userName
