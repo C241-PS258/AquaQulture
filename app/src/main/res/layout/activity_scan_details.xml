@@ -67,7 +67,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <com.dicoding.aquaculture.view.costumview.CustomBulletPointView
                     android:id="@+id/pakan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <TextView
+                <com.dicoding.aquaculture.view.costumview.CustomBulletPointView
                     android:id="@+id/pemeliharaan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -27,8 +27,12 @@ class ScanDetailsActivity : AppCompatActivity() {
         val pemeliharaan = intent.getStringExtra(EXTRA_PEMELIHARAAN)
 
         binding.jenisIkan.text = jenisIkan
-        binding.pakan.text = pakan
-        binding.pemeliharaan.text = pemeliharaan
+        pakan?.let {
+            binding.pakan.setItems(it.split(","))
+        }
+        pemeliharaan?.let {
+            binding.pemeliharaan.setItems(it.split(","))
+        }
 
     }
 

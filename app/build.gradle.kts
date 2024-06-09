@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment)
-    implementation(libs.androidx.exifinterface)
+    implementation (libs.androidx.exifinterface)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -80,5 +80,9 @@ dependencies {
     //Paging
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.room.paging)
+
+    //Circle Image
+    implementation (libs.circleimageview)
+
 
 }
