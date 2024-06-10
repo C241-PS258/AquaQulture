@@ -15,6 +15,7 @@ import okhttp3.MultipartBody
 class MainViewModel(private val repository: UserRepository) : ViewModel() {
 
     private val userName: MutableLiveData<String?> = MutableLiveData()
+    private val userEmail: MutableLiveData<String?> = MutableLiveData()
     private val _predictResult = MutableLiveData<PredictResponse?>()
     val predictResult: MutableLiveData<PredictResponse?> get() = _predictResult
     private val _errorMessage = MutableLiveData<String?>()
@@ -24,6 +25,8 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     val isLoading: LiveData<Boolean> get() = _isLoading
     init {
         getUsernameOnLaunch()
+
+        getEmail()
     }
 
     private fun getUsernameOnLaunch() {
@@ -40,6 +43,23 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
             }
         }
     }
+
+    private fun getEmail() {
+        viewModelScope.launch {
+            try {
+                val token = repository.getUserToken()
+                Log.d("MainViewModel", "Token: $token ")
+                val statusResponse = repository.getStatus(token)
+                val email = statusResponse.email
+                userEmail.postValue(email)
+            } catch (e : Exception) {
+                Log.e("MainViewModel", "Error fetching status: ${e.message} ",e )
+                userEmail.postValue(null)
+            }
+        }
+    }
+
+
 
     fun predictFish(image: MultipartBody.Part) {
         _isLoading.value = true
@@ -65,6 +85,8 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     fun getUserName(): MutableLiveData<String?> = userName
+
+    fun getUserEmail(): MutableLiveData<String?> = userEmail
 
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()

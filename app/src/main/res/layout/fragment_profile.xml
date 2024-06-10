@@ -28,9 +28,9 @@
                 android:id="@+id/img_detail_photo"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
-                tools:src="@tools:sample/avatars"
+                android:src="@drawable/ic_detail_user"
                 android:layout_margin="16dp"
-                android:padding="16dp" />
+                android:padding="4dp" />
 
             <TextView
                 android:id="@+id/tv_edit_image_profile"
@@ -68,21 +68,25 @@
                 android:id="@+id/tv_nama"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nama :"
+                android:alpha="0"
+                android:text="@string/nama"
                 android:textSize="16sp"
                 android:layout_margin="16dp"
                 android:textColor="@android:color/black"
-                android:padding="8dp" />
+                android:padding="8dp"
+                tools:alpha="100"/>
 
             <TextView
                 android:id="@+id/tv_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email :"
+                android:alpha="0"
+                android:text="@string/email_profile"
                 android:textSize="16sp"
                 android:layout_margin="16dp"
                 android:textColor="@android:color/black"
-                android:padding="8dp" />
+                android:padding="8dp"
+                tools:alpha="100"/>
 
         </LinearLayout>
 
@@ -94,7 +98,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:backgroundTint="#FF4D00"
-        android:text="Logout"
+        android:text="@string/logout"
         android:textColor="@color/black"
         app:cornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -35,6 +35,7 @@ class HomeFragment : Fragment() {
 
             binding.nameUser.animate().alpha(1f).setDuration(250).start()
         })
+
     }
 
     override fun onDestroyView() {
