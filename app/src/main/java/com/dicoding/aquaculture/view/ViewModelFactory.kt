@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.aquaculture.data.UserRepository
 import com.dicoding.aquaculture.data.di.Injection
+import com.dicoding.aquaculture.view.demo.DemoViewModel
 import com.dicoding.aquaculture.view.login.LoginViewModel
 import com.dicoding.aquaculture.view.main.MainViewModel
 import com.dicoding.aquaculture.view.signup.SignupViewModel
@@ -22,6 +23,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
                 SignupViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(DemoViewModel::class.java) -> {
+                DemoViewModel(repository) as T
             }
 //            modelClass.isAssignableFrom(DetailStoryViewModel::class.java) -> {
 //                DetailStoryViewModel(repository) as T

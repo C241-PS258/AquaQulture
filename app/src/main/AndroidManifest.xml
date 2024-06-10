@@ -29,6 +29,9 @@
             android:name=".view.demo.DemoActivity"
             android:exported="false" />
         <activity
+            android:name=".view.demo.ScanDetailsDemoActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.register.RegisterActivity"
             android:exported="false" />
         <activity

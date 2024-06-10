@@ -13,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.databinding.ActivityRegisterBinding
 import com.dicoding.aquaculture.view.demo.DemoActivity
+import com.dicoding.aquaculture.view.demo.ScanDetailsDemoActivity.Companion.HIDE_DEMO_BUTTON
+import com.dicoding.aquaculture.view.demo.ScanDetailsDemoActivity.Companion.PREFERENCES_NAME
 import com.dicoding.aquaculture.view.login.LoginActivity
 import com.dicoding.aquaculture.view.signup.SignupActivity
 
@@ -27,6 +29,12 @@ class RegisterActivity : AppCompatActivity() {
         setupView()
         setupAction()
         playAnimation()
+
+        val sharedPreferences = getSharedPreferences(PREFERENCES_NAME, MODE_PRIVATE)
+        if (sharedPreferences.getBoolean(HIDE_DEMO_BUTTON, false)) {
+            binding.demoBtn.visibility = View.INVISIBLE
+            binding.demoBtn.isClickable = false
+        }
     }
 
     private fun setupView() {
@@ -75,5 +83,10 @@ class RegisterActivity : AppCompatActivity() {
             playSequentially(demo, together)
             start()
         }
+    }
+
+    companion object {
+        const val HIDE_DEMO_BUTTON = "hide_demo_button"
+        const val PREFERENCES_NAME = "com.dicoding.aquaculture.PREFERENCES"
     }
 }

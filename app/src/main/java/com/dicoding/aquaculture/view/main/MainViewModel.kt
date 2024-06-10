@@ -59,8 +59,6 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
-
-
     fun predictFish(image: MultipartBody.Part) {
         _isLoading.value = true
         viewModelScope.launch {

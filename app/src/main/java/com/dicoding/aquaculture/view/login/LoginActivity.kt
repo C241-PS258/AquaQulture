@@ -123,6 +123,7 @@ class LoginActivity : AppCompatActivity() {
 
         builder.show()
     }
+
     private fun playAnimation() {
         ObjectAnimator.ofFloat(binding.imageLogin, View.TRANSLATION_X, -30f, 30f).apply {
             duration = 7000
