@@ -58,4 +58,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun refreshHomeFragment() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main)
+        if (fragment is HomeFragment) {
+            fragment.refreshData()
+        }
+    }
 }

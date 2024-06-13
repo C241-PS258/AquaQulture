@@ -33,7 +33,11 @@ class ScanDetailsActivity : AppCompatActivity() {
         pemeliharaan?.let {
             binding.pemeliharaan.setItems(it.split(". ").map { point -> point.trim() })
         }
+    }
 
+    override fun onBackPressed() {
+        setResult(RESULT_OK)
+        super.onBackPressed()
     }
 
     companion object {

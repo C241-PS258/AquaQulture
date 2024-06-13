@@ -8,6 +8,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.dicoding.aquaculture.data.UserRepository
 import com.dicoding.aquaculture.data.pref.UserModel
+import com.dicoding.aquaculture.data.response.HistoryResponse
 import com.dicoding.aquaculture.data.response.PredictResponse
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -16,16 +17,21 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
 
     private val userName: MutableLiveData<String?> = MutableLiveData()
     private val userEmail: MutableLiveData<String?> = MutableLiveData()
+
+    private val _historyData = MutableLiveData<List<HistoryResponse>>()
+    val historyData: LiveData<List<HistoryResponse>> = _historyData
+
     private val _predictResult = MutableLiveData<PredictResponse?>()
     val predictResult: MutableLiveData<PredictResponse?> get() = _predictResult
+
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
-    private val _isLoading = MutableLiveData<Boolean>()
 
+    private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
     init {
         getUsernameOnLaunch()
-
+        fetchHistoryData()
         getEmail()
     }
 
@@ -33,7 +39,7 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val token = repository.getUserToken()
-                Log.d("MainViewModel", "Token: $token")
+                Log.d("MainViewModel - getUsernameOnLaunch", "Token: $token")
                 val statusResponse = repository.getStatus(token)
                 val name = statusResponse.name
                 userName.postValue(name)
@@ -48,7 +54,7 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val token = repository.getUserToken()
-                Log.d("MainViewModel", "Token: $token ")
+                Log.d("MainViewModel - getEmail", "Token: $token ")
                 val statusResponse = repository.getStatus(token)
                 val email = statusResponse.email
                 userEmail.postValue(email)
@@ -70,6 +76,17 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
                 _errorMessage.value = "Error predicting fish: ${e.message}"
             } finally {
                 _isLoading.value = false
+            }
+        }
+    }
+
+    fun fetchHistoryData() {
+        viewModelScope.launch {
+            try {
+                val data = repository.getHistoryData()
+                _historyData.postValue(data)
+            } catch (e: Exception) {
+                // Handle the error appropriately
             }
         }
     }

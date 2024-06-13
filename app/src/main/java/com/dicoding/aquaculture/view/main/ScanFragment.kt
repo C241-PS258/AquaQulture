@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -92,7 +93,7 @@ class ScanFragment : Fragment() {
                 intent.putExtra(ScanDetailsActivity.EXTRA_JENIS_IKAN, result.jenisIkan)
                 intent.putExtra(ScanDetailsActivity.EXTRA_PAKAN, result.pakan)
                 intent.putExtra(ScanDetailsActivity.EXTRA_PEMELIHARAAN, result.pemeliharaan)
-                startActivity(intent)
+                scanDetailsActivityResultLauncher.launch(intent)
             }
         })
 
@@ -105,7 +106,13 @@ class ScanFragment : Fragment() {
 
     }
 
-
+    private val scanDetailsActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == AppCompatActivity.RESULT_OK) {
+            (activity as MainActivity).refreshHomeFragment()
+        }
+    }
 
     private fun startGallery() {
         launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))

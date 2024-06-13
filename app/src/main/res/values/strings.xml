@@ -53,5 +53,6 @@
     <string name="nama">Nama :</string>
     <string name="email_profile">Email :</string>
     <string name="logout">Logout</string>
+    <string name="prediksi_panen">Prediksi Panen : %1$s</string>
 
 </resources>

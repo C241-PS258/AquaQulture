@@ -14,32 +14,57 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="8dp">
 
         <ImageView
             android:id="@+id/image_history"
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:transitionName="image_history"
             card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars"
-            android:transitionName="image_history" />
+            card_view:layout_constraintEnd_toEndOf="parent"
+            card_view:layout_constraintBottom_toTopOf="@+id/name_fish"
+            tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/name_fish"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             tools:text="Nama Ikan"
-            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="8dp"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:layout_marginVertical="32dp"
-            card_view:layout_constraintStart_toEndOf="@id/image_history"
+            card_view:layout_constraintTop_toBottomOf="@id/image_history"
+            card_view:layout_constraintStart_toStartOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintTop_toTopOf="parent"
             android:transitionName="name_fish" />
 
+        <TextView
+            android:id="@+id/timestamp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:transitionName="timestamp"
+            card_view:layout_constraintTop_toBottomOf="@id/name_fish"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            tools:text="Timestamp" />
+
+        <TextView
+            android:id="@+id/harvest_predictions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="14sp"
+            android:text="@string/prediksi_panen"
+            android:transitionName="harvest_predictions"
+            card_view:layout_constraintTop_toBottomOf="@id/timestamp"
+            card_view:layout_constraintStart_toStartOf="parent"
+            card_view:layout_constraintEnd_toEndOf="parent"
+            tools:text="Harvest Predictions: 13-12-2024" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
