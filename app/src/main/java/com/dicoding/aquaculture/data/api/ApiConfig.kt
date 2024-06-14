@@ -30,7 +30,7 @@ object ApiConfig {
             .build()
 
         val gson = GsonBuilder()
-            .setLenient()  // Enable lenient mode
+            .setLenient()
             .create()
 
         val retrofit = Retrofit.Builder()

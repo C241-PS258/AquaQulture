@@ -4,19 +4,17 @@ import com.dicoding.aquaculture.data.api.ApiConfig.getApiService
 import com.dicoding.aquaculture.data.api.ApiService
 import com.dicoding.aquaculture.data.pref.UserModel
 import com.dicoding.aquaculture.data.pref.UserPreference
-import com.dicoding.aquaculture.data.response.DetailStoryResponse
 import com.dicoding.aquaculture.data.response.ErrorResponse
+import com.dicoding.aquaculture.data.response.HistoryResponse
 import com.dicoding.aquaculture.data.response.LoginRequest
 import com.dicoding.aquaculture.data.response.PredictResponse
 import com.dicoding.aquaculture.data.response.RegisterRequest
 import com.dicoding.aquaculture.data.response.RegisterResponse
 import com.dicoding.aquaculture.data.response.StatusResponse
-import com.dicoding.aquaculture.data.response.StoryUploadResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class UserRepository private constructor(
@@ -76,6 +74,10 @@ class UserRepository private constructor(
         }
     }
 
+    suspend fun getHistoryData(): List<HistoryResponse> {
+        return getApiService(getUserToken()).getHistoryData()
+    }
+
     fun getSession(): Flow<UserModel> {
         return userPreference.getSession()
     }
@@ -86,38 +88,10 @@ class UserRepository private constructor(
 
     suspend fun predictFish(image: MultipartBody.Part): PredictResponse {
         return try {
-            apiService.predict(image)
+            getApiService(getUserToken()).predict(image)
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
-            throw Exception(errorResponse.message)
-        }
-    }
-
-    suspend fun getDetailStory(storyId: String): DetailStoryResponse {
-        return try {
-            val token = getUserToken()
-            getApiService(token).getDetailStory(storyId)
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorMessage = if (errorBody != null) {
-                Gson().fromJson(errorBody, DetailStoryResponse::class.java).message
-            } else {
-                e.message()
-            }
-            throw Exception(errorMessage)
-        } catch (e: Exception) {
-            throw e
-        }
-    }
-
-    suspend fun uploadStory(image: MultipartBody.Part, description: RequestBody, lat : Float?, lon : Float?): StoryUploadResponse {
-        return try {
-            val token = getUserToken()
-            getApiService(token).uploadImage(image, description, lat, lon)
-        } catch (e: HttpException) {
-            val errorBody = e.response()?.errorBody()?.string()
-            val errorResponse = Gson().fromJson(errorBody, StoryUploadResponse::class.java)
             throw Exception(errorResponse.message)
         }
     }

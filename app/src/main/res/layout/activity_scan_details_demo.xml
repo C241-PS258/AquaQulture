@@ -46,22 +46,23 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Jenis Ikan"
-                    android:textSize="16sp"
+                    android:text="@string/jenis_ikan"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/jenisIkan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Pakan"
-                    android:textSize="16sp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/pakan"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <com.dicoding.aquaculture.view.customview.CustomBulletPointView
@@ -74,8 +75,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Pemeliharaan"
-                    android:textSize="16sp"
+                    android:layout_marginBottom="4dp"
+                    android:text="@string/pemeliharaan"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <com.dicoding.aquaculture.view.customview.CustomBulletPointView

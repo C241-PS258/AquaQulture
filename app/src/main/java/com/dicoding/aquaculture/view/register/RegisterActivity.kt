@@ -10,11 +10,8 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.databinding.ActivityRegisterBinding
 import com.dicoding.aquaculture.view.demo.DemoActivity
-import com.dicoding.aquaculture.view.demo.ScanDetailsDemoActivity.Companion.HIDE_DEMO_BUTTON
-import com.dicoding.aquaculture.view.demo.ScanDetailsDemoActivity.Companion.PREFERENCES_NAME
 import com.dicoding.aquaculture.view.login.LoginActivity
 import com.dicoding.aquaculture.view.signup.SignupActivity
 
@@ -73,7 +70,6 @@ class RegisterActivity : AppCompatActivity() {
         val login = ObjectAnimator.ofFloat(binding.loginBtn, View.ALPHA, 1f).setDuration(200)
         val signup = ObjectAnimator.ofFloat(binding.signupBtn, View.ALPHA, 1f).setDuration(200)
         val demo = ObjectAnimator.ofFloat(binding.demoBtn, View.ALPHA, 1f).setDuration(200)
-
 
         val together = AnimatorSet().apply {
             playTogether(login, signup)

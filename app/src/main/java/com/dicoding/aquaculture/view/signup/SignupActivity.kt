@@ -38,7 +38,6 @@ class SignupActivity : AppCompatActivity() {
         setupAction()
         playAnimation()
 
-
         setMyButtonEnable()
         val textWatcher = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {

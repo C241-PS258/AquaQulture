@@ -46,7 +46,6 @@ class LoginViewModel(private val repository: UserRepository) : ViewModel() {
         }
     }
 
-
     private fun saveSession(user: UserModel) {
         viewModelScope.launch {
             try {
