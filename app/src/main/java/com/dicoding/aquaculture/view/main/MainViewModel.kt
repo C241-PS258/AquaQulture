@@ -21,6 +21,9 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     private val _historyData = MutableLiveData<List<HistoryResponse>>()
     val historyData: LiveData<List<HistoryResponse>> = _historyData
 
+    private val _historyMessage = MutableLiveData<String?>()
+    val historyMessage: LiveData<String?> get() = _historyMessage
+
     private val _predictResult = MutableLiveData<PredictResponse?>()
     val predictResult: MutableLiveData<PredictResponse?> get() = _predictResult
 
@@ -39,7 +42,6 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val token = repository.getUserToken()
-                Log.d("MainViewModel - getUsernameOnLaunch", "Token: $token")
                 val statusResponse = repository.getStatus(token)
                 val name = statusResponse.name
                 userName.postValue(name)
@@ -54,7 +56,6 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
         viewModelScope.launch {
             try {
                 val token = repository.getUserToken()
-                Log.d("MainViewModel - getEmail", "Token: $token ")
                 val statusResponse = repository.getStatus(token)
                 val email = statusResponse.email
                 userEmail.postValue(email)
@@ -86,7 +87,8 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
                 val data = repository.getHistoryData()
                 _historyData.postValue(data)
             } catch (e: Exception) {
-                // Handle the error appropriately
+                _historyMessage.postValue("Error fetching history data: ${e.message}")
+                Log.e("MainViewModel", "Error fetching history data: ${e.message}", e)
             }
         }
     }

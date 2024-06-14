@@ -4,19 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.databinding.FragmentProfileBinding
 import com.dicoding.aquaculture.view.ViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Response
 
 
 class ProfileFragment : Fragment() {
@@ -55,9 +48,6 @@ class ProfileFragment : Fragment() {
             viewModel.logout()
         }
     }
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

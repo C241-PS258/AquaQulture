@@ -9,7 +9,6 @@ import com.dicoding.aquaculture.data.UserRepository
 import com.dicoding.aquaculture.data.response.PredictResponse
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 
 class DemoViewModel(private val repository: UserRepository) : ViewModel() {
 

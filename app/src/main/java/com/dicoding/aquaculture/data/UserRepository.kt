@@ -4,7 +4,6 @@ import com.dicoding.aquaculture.data.api.ApiConfig.getApiService
 import com.dicoding.aquaculture.data.api.ApiService
 import com.dicoding.aquaculture.data.pref.UserModel
 import com.dicoding.aquaculture.data.pref.UserPreference
-import com.dicoding.aquaculture.data.response.DetailStoryResponse
 import com.dicoding.aquaculture.data.response.ErrorResponse
 import com.dicoding.aquaculture.data.response.HistoryResponse
 import com.dicoding.aquaculture.data.response.LoginRequest
@@ -12,12 +11,10 @@ import com.dicoding.aquaculture.data.response.PredictResponse
 import com.dicoding.aquaculture.data.response.RegisterRequest
 import com.dicoding.aquaculture.data.response.RegisterResponse
 import com.dicoding.aquaculture.data.response.StatusResponse
-import com.dicoding.aquaculture.data.response.StoryUploadResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class UserRepository private constructor(
@@ -91,7 +88,7 @@ class UserRepository private constructor(
 
     suspend fun predictFish(image: MultipartBody.Part): PredictResponse {
         return try {
-            apiService.predict(image)
+            getApiService(getUserToken()).predict(image)
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)

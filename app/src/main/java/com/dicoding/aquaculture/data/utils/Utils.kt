@@ -15,7 +15,10 @@ import com.dicoding.aquaculture.BuildConfig
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -23,7 +26,6 @@ import java.util.Locale
 private const val FILENAME_FORMAT = "yyyyMMdd_HHmmss"
 private val timeStamp: String = SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(Date())
 
-//TODO : Perbaiki bug crash android 9
 fun getImageUri(context: Context): Uri {
     var uri: Uri? = null
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -66,6 +68,45 @@ fun uriToFile(imageUri: Uri, context: Context): File {
     outputStream.close()
     inputStream.close()
     return myFile
+}
+
+fun loadBitmapFromUrl(imageUrl: String?): Bitmap? {
+    return try {
+        val url = URL(imageUrl)
+        val connection: HttpURLConnection = url.openConnection() as HttpURLConnection
+        connection.doInput = true
+        connection.connect()
+        val inputStream: InputStream = connection.inputStream
+
+        val bytes = inputStream.readBytes()
+        inputStream.close()
+
+        val bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
+
+        val rotatedBitmap = rotateBitmapIfNeeded(bitmap)
+
+        rotatedBitmap ?: bitmap
+    } catch (e: IOException) {
+        e.printStackTrace()
+        null
+    }
+}
+
+private fun rotateBitmapIfNeeded(bitmap: Bitmap): Bitmap? {
+    return try {
+        val width = bitmap.width
+        val height = bitmap.height
+        if (width < height) {
+            val matrix = Matrix()
+            matrix.postRotate(90F)
+            Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true)
+        } else {
+            bitmap
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
 }
 
 fun File.reduceFileImage(): File {

@@ -6,5 +6,5 @@ data class UserModel(
     val email: String,
     val token: String,
     val isLogin: Boolean = false,
-    val status: StatusResponse? = null // Add status field
+    val status: StatusResponse? = null
 )

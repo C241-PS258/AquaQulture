@@ -57,7 +57,6 @@ class DemoActivity : AppCompatActivity() {
         viewModel.resetPredictResult()
         viewModel.resetErrorMessage()
 
-        // If there is a saved instance, restore the image URI
         savedInstanceState?.let {
             currentImageUri = it.getParcelable(KEY_IMAGE_URI)
             currentImageUri?.let { showImage() }

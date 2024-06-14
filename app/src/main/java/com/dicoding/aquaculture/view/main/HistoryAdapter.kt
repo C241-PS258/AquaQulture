@@ -1,21 +1,26 @@
 package com.dicoding.aquaculture.view.main
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.data.response.HistoryResponse
+import com.dicoding.aquaculture.data.utils.loadBitmapFromUrl
 import com.dicoding.aquaculture.databinding.ItemHistoryBinding
+import com.dicoding.aquaculture.view.scan.HistoryDetailsActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
 
-class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
+class HistoryAdapter(private val coroutineScope: CoroutineScope) : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() {
 
     private val items = mutableListOf<HistoryResponse>()
 
@@ -36,17 +41,33 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
 
     override fun getItemCount(): Int = items.size
 
-    class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class HistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val binding = ItemHistoryBinding.bind(itemView)
 
         fun bind(history: HistoryResponse) {
-            binding.nameFish.text = history.namefish
+            binding.nameFish.text = history.nameFish
 
             val formattedDate = formatDate(history.timestamp)
             binding.timestamp.text = formattedDate
 
             binding.harvestPredictions.text = itemView.context.getString(R.string.prediksi_panen, history.harvestPredictions)
-            loadImage(binding.imageHistory, history.image)
+
+            coroutineScope.launch {
+                val bitmap = withContext(Dispatchers.IO) {
+                    loadBitmapFromUrl(history.image)
+                }
+                bitmap?.let {
+                    binding.imageHistory.setImageBitmap(it)
+                }
+            }
+
+            itemView.setOnClickListener {
+                val context = itemView.context
+                val intent = Intent(context, HistoryDetailsActivity::class.java).apply {
+                    putExtra(HistoryDetailsActivity.EXTRA_HISTORY, history)
+                }
+                context.startActivity(intent)
+            }
         }
 
         private fun formatDate(timestamp: String?): String {
@@ -63,14 +84,6 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder>() 
                 e.printStackTrace()
                 "Unknown Date"
             }
-        }
-
-        private fun loadImage(imageView: ImageView, imageUrl: String?) {
-            Glide.with(imageView.context)
-                .load(imageUrl)
-                .centerCrop()
-                .placeholder(R.drawable.ic_place_holder)
-                .into(imageView)
         }
     }
 }

@@ -13,24 +13,19 @@ import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.data.utils.getImageUri
-import com.dicoding.aquaculture.data.utils.reduceFileImage
 import com.dicoding.aquaculture.data.utils.uriToFile
 import com.dicoding.aquaculture.databinding.FragmentScanBinding
 import com.dicoding.aquaculture.view.ViewModelFactory
 import com.dicoding.aquaculture.view.scan.ScanDetailsActivity
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
-
 
 class ScanFragment : Fragment() {
     private val viewModel by viewModels<MainViewModel> {
@@ -69,7 +64,6 @@ class ScanFragment : Fragment() {
         viewModel.resetPredictResult()
         viewModel.resetErrorMessage()
 
-        // If there is a saved instance, restore the image URI
         savedInstanceState?.let {
             currentImageUri = it.getParcelable(KEY_IMAGE_URI)
             currentImageUri?.let { showImage() }
@@ -133,8 +127,8 @@ class ScanFragment : Fragment() {
 
     private fun uploadImage() {
         currentImageUri?.let { uri ->
-            val imageFile = uriToFile(uri, requireContext()) // Get File from Uri
-            val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageFile)
+            val imageFile = uriToFile(uri, requireContext())
+            val requestFile = imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
 
             viewModel.predictFish(multipartBody)

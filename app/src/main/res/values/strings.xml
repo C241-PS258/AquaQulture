@@ -23,6 +23,11 @@
     <string name="cur_lang">Current language :</string>
     <string name="preview">Preview : </string>
 
+    //Details
+    <string name="jenis_ikan">Jenis Ikan</string>
+    <string name="pakan">Pakan</string>
+    <string name="pemeliharaan">Pemeliharaan</string>
+
     //Account
     <string name="email">Email</string>
     <string name="name">Nama</string>
@@ -54,5 +59,7 @@
     <string name="email_profile">Email :</string>
     <string name="logout">Logout</string>
     <string name="prediksi_panen">Prediksi Panen : %1$s</string>
+    <string name="history">History :</string>
+    <string name="no_history">No history data available</string>
 
 </resources>
