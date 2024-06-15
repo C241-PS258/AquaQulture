@@ -51,7 +51,7 @@ class HistoryAdapter(private val coroutineScope: CoroutineScope) : RecyclerView.
             binding.timestamp.text = formattedDate
 
             binding.harvestPredictions.text = itemView.context.getString(R.string.prediksi_panen, history.harvestPredictions)
-
+            
             binding.progressBar.visibility = View.VISIBLE
 
             coroutineScope.launch {
