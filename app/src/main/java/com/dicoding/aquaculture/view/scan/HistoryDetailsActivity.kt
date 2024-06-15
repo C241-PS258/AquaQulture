@@ -2,6 +2,7 @@ package com.dicoding.aquaculture.view.scan
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.dicoding.aquaculture.data.response.HistoryResponse
@@ -45,6 +46,7 @@ class HistoryDetailsActivity : AppCompatActivity() {
             bitmap?.let {
                 binding.resultImage.setImageBitmap(it)
             }
+            binding.progressBar2.visibility = View.GONE
         }
     }
 

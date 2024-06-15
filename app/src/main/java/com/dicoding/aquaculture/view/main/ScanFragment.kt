@@ -24,7 +24,6 @@ import com.dicoding.aquaculture.view.ViewModelFactory
 import com.dicoding.aquaculture.view.scan.ScanDetailsActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 
 class ScanFragment : Fragment() {

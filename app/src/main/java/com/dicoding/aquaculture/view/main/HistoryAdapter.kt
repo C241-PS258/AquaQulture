@@ -52,13 +52,18 @@ class HistoryAdapter(private val coroutineScope: CoroutineScope) : RecyclerView.
 
             binding.harvestPredictions.text = itemView.context.getString(R.string.prediksi_panen, history.harvestPredictions)
 
+            binding.progressBar.visibility = View.VISIBLE
+
             coroutineScope.launch {
+                binding.imageHistory.setImageDrawable(null)
+
                 val bitmap = withContext(Dispatchers.IO) {
                     loadBitmapFromUrl(history.image)
                 }
                 bitmap?.let {
                     binding.imageHistory.setImageBitmap(it)
                 }
+                binding.progressBar.visibility = View.GONE
             }
 
             itemView.setOnClickListener {

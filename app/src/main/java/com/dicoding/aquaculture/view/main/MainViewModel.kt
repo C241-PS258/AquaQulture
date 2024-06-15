@@ -30,15 +30,13 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     private val _errorMessage = MutableLiveData<String?>()
     val errorMessage: LiveData<String?> get() = _errorMessage
 
+    private val _statusMessage = MutableLiveData<String?>()
+    val statusMessage: LiveData<String?> get() = _statusMessage
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> get() = _isLoading
-    init {
-        getUsernameOnLaunch()
-        fetchHistoryData()
-        getEmail()
-    }
 
-    private fun getUsernameOnLaunch() {
+    fun getUsernameOnLaunch() {
         viewModelScope.launch {
             try {
                 val token = repository.getUserToken()
@@ -46,22 +44,33 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
                 val name = statusResponse.name
                 userName.postValue(name)
             } catch (e: Exception) {
-                Log.e("MainViewModel", "Error fetching status: ${e.message}", e)
-                userName.postValue(null)
+                if (e.message == "Unauthorized") {
+                    handleUnauthorized()
+                } else {
+                    Log.e("MainViewModel", "Error fetching status: ${e.message}", e)
+                    userName.postValue(null)
+                }
             }
         }
     }
 
-    private fun getEmail() {
+    fun getEmail() {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val token = repository.getUserToken()
                 val statusResponse = repository.getStatus(token)
                 val email = statusResponse.email
                 userEmail.postValue(email)
-            } catch (e : Exception) {
-                Log.e("MainViewModel", "Error fetching status: ${e.message} ",e )
-                userEmail.postValue(null)
+            } catch (e: Exception) {
+                if (e.message == "Unauthorized") {
+                    handleUnauthorized()
+                } else {
+                    Log.e("MainViewModel", "Error fetching status: ${e.message}", e)
+                    userEmail.postValue(null)
+                }
+            } finally {
+                _isLoading.value = false
             }
         }
     }
@@ -82,6 +91,7 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     fun fetchHistoryData() {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val data = repository.getHistoryData()
@@ -89,8 +99,15 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
             } catch (e: Exception) {
                 _historyMessage.postValue("Error fetching history data: ${e.message}")
                 Log.e("MainViewModel", "Error fetching history data: ${e.message}", e)
+            } finally {
+                _isLoading.value = false
             }
         }
+    }
+
+    private fun handleUnauthorized() {
+        _statusMessage.postValue("Mohon masuk kembali untuk melanjutkan")
+        logout()
     }
 
     fun resetPredictResult() {
