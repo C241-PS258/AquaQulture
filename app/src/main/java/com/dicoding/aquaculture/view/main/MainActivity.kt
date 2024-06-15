@@ -40,23 +40,29 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         } else {
-            val navView: BottomNavigationView = binding.navView
-
-            val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
-            val navController = navHostFragment.navController
-
-            navView.setupWithNavController(navController)
+            sessionObserver()
         }
     }
 
     private fun sessionObserver() {
         viewModel.getSession().observe(this) { user ->
-            if (!user.isLogin) {
+            if (user.isLogin) {
+                setupNavigation()
+            } else {
                 startActivity(Intent(this, RegisterActivity::class.java))
                 intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                 finish()
             }
         }
+    }
+
+    private fun setupNavigation() {
+        val navView: BottomNavigationView = binding.navView
+
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        navView.setupWithNavController(navController)
     }
 
     fun refreshHomeFragment() {

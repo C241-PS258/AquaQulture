@@ -11,7 +11,6 @@ import com.dicoding.aquaculture.R
 import com.dicoding.aquaculture.databinding.FragmentProfileBinding
 import com.dicoding.aquaculture.view.ViewModelFactory
 
-
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
@@ -38,15 +37,26 @@ class ProfileFragment : Fragment() {
             binding.tvNama.animate().alpha(1f).setDuration(250).start()
         })
 
+        viewModel.getEmail()
+        viewModel.getUsernameOnLaunch()
+
         viewModel.getUserEmail().observe(viewLifecycleOwner, Observer{ userEmail ->
             binding.tvEmail.text = getString(R.string.email_profile) + " " + userEmail
 
             binding.tvEmail.animate().alpha(1f).setDuration(250).start()
         })
 
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            showLoading(isLoading)
+        })
+
         binding.btnLogout.setOnClickListener {
             viewModel.logout()
         }
+    }
+
+    private fun showLoading(isLoading : Boolean) {
+        binding.progressBar.visibility = if(isLoading) View.VISIBLE else View.GONE
     }
 
     override fun onDestroyView() {
