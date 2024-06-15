@@ -24,7 +24,7 @@ class DemoViewModel(private val repository: UserRepository) : ViewModel() {
         _isLoading.value = true
         viewModelScope.launch {
             try {
-                val response = repository.predictFish(image)
+                val response = repository.predictFishOnDemo(image)
                 _predictResult.value = response
             } catch (e: Exception) {
                 Log.e("MainViewModel", "Error predicting fish: ${e.message}", e)

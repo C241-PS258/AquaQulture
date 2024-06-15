@@ -12,8 +12,8 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.dicoding.aquaculture.data.utils.getImageUri
 import com.dicoding.aquaculture.data.utils.uriToFile
 import com.dicoding.aquaculture.databinding.ActivityDemoBinding
@@ -21,7 +21,7 @@ import com.dicoding.aquaculture.view.ViewModelFactory
 import com.dicoding.aquaculture.view.scan.ScanDetailsActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 
 class DemoActivity : AppCompatActivity() {
     private lateinit var viewModel: DemoViewModel
@@ -110,8 +110,8 @@ class DemoActivity : AppCompatActivity() {
 
     private fun uploadImage() {
         currentImageUri?.let { uri ->
-            val imageFile = uriToFile(uri, this) // Get File from Uri
-            val requestFile = RequestBody.create("image/jpeg".toMediaTypeOrNull(), imageFile)
+            val imageFile = uriToFile(uri, this)
+            val requestFile = imageFile.asRequestBody("image/jpeg".toMediaTypeOrNull())
             val multipartBody = MultipartBody.Part.createFormData("image", imageFile.name, requestFile)
 
             viewModel.predictFish(multipartBody)

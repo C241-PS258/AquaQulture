@@ -1,6 +1,7 @@
 package com.dicoding.aquaculture.data
 
 import com.dicoding.aquaculture.data.api.ApiConfig.getApiService
+import com.dicoding.aquaculture.data.api.ApiConfig.getApiServiceWithoutAuth
 import com.dicoding.aquaculture.data.api.ApiService
 import com.dicoding.aquaculture.data.pref.UserModel
 import com.dicoding.aquaculture.data.pref.UserPreference
@@ -89,6 +90,16 @@ class UserRepository private constructor(
     suspend fun predictFish(image: MultipartBody.Part): PredictResponse {
         return try {
             getApiService(getUserToken()).predict(image)
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
+            throw Exception(errorResponse.message)
+        }
+    }
+
+    suspend fun predictFishOnDemo(image: MultipartBody.Part): PredictResponse {
+        return try {
+            getApiServiceWithoutAuth().predict(image)
         } catch (e: HttpException) {
             val errorBody = e.response()?.errorBody()?.string()
             val errorResponse = Gson().fromJson(errorBody, ErrorResponse::class.java)
