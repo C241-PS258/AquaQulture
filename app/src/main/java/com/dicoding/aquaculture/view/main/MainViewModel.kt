@@ -82,6 +82,7 @@ class MainViewModel(private val repository: UserRepository) : ViewModel() {
     }
 
     fun fetchHistoryData() {
+        _isLoading.value = true
         viewModelScope.launch {
             try {
                 val data = repository.getHistoryData()
