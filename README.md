@@ -6,16 +6,19 @@ Aquaculture Mate adalah aplikasi yang membantu pengguna mengidentifikasi jenis i
 
 ## Main Feature // Fitur Utama
 
+**English**
 1. **Register and Login**: New user can register and login to use this Application.
 2. **Scan Fish**: Using image recognition technology to predict the fish.
 3. **History Scan**: To see the history of already scanned fish.
 
+**Indonesia**
 1. **Registrasi dan Login**: Pengguna baru dapat mendaftar dan login untuk menggunakan aplikasi.
 2. **Scan Ikan**: Menggunakan teknologi pengenalan gambar untuk memprediksi jenis ikan.
 3. **Histori Scan**: Melihat riwayat scan yang telah dilakukan sebelumnya.
 
 ## How To Use
 
+**English**
 1. Register if you don't have an account.
 2. Login to your account.
 3. On the bottom side of the application, click on "scan",
@@ -25,6 +28,7 @@ Aquaculture Mate adalah aplikasi yang membantu pengguna mengidentifikasi jenis i
 7. Result screen will show up.
 8. This scan resul will be shown in the homepage of the application.
 
+**Indonesia**
 1. Register Jika belum memiliki akun.
 2. Login akun anda.
 3. Pada bagian bawah aplikasi, pilih menu scan,
